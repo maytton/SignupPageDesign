@@ -1,35 +1,38 @@
-import 'package:cadastro/auth/signup.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpState extends State<SignUp> {
   final username = TextEditingController();
   final password = TextEditingController();
-  bool isVisible = false;
+  final confirmPassword = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  bool isVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Form(
-              key: formKey,
+          child: Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    "img/3783954.webp",
-                    width: 220,
+                  const ListTile(
+                    title: Text(
+                      "Registrar Nova Conta",
+                      style:
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  const SizedBox(height: 15),
                   Container(
                     margin: const EdgeInsets.all(8),
                     padding:
@@ -38,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.deepPurple.withOpacity(0.1)),
                     child: TextFormField(
+                      controller: username,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "username is required";
@@ -59,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.deepPurple.withOpacity(0.1)),
                     child: TextFormField(
+                      controller: password,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "password is required";
@@ -81,39 +86,37 @@ class _LoginScreenState extends State<LoginScreen> {
                                   : Icons.visibility_off))),
                     ),
                   ),
-                  const SizedBox(height: 10),
                   Container(
-                    height: 55,
-                    width: MediaQuery.of(context).size.width * 9,
+                    margin: const EdgeInsets.all(8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.deepPurple),
-                    child: TextButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {}
+                        color: Colors.deepPurple.withOpacity(0.1)),
+                    child: TextFormField(
+                      controller: confirmPassword,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "password is required";
+                        }
+                        return null;
                       },
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      obscureText: !isVisible,
+                      decoration: InputDecoration(
+                          icon: Icon(Icons.lock),
+                          border: InputBorder.none,
+                          hintText: "password",
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isVisible = !isVisible;
+                                });
+                              },
+                              icon: Icon(isVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off))),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Não tem uma conta? "),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignUp(),
-                              ),
-                            );
-                          },
-                          child: const Text("Inscreva-se")),
-                    ],
-                  )
                 ],
               ),
             ),
