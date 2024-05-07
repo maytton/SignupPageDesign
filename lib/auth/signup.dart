@@ -1,3 +1,4 @@
+import 'package:cadastro/auth/login.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -45,6 +46,8 @@ class _SignUpState extends State<SignUp> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "username is required";
+                        } else if (password.text != confirmPassword.text) {
+                          return "Password don't match";
                         }
                         return null;
                       },
@@ -117,6 +120,39 @@ class _SignUpState extends State<SignUp> {
                                   : Icons.visibility_off))),
                     ),
                   ),
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 55,
+                    width: MediaQuery.of(context).size.width * 9,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.deepPurple),
+                    child: TextButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {}
+                      },
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Não tem uma conta? "),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text("Inscreva-se")),
+                    ],
+                  )
                 ],
               ),
             ),
